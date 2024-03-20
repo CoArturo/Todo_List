@@ -1,0 +1,24 @@
+body
+{
+    width: 100svw;
+}
+
+.card
+{
+    margin-bottom: 10px;
+}
+
+.contenedorCards
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: 98svw;
+    justify-content: center;
+}
+
+.menu
+{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

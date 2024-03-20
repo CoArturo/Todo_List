@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import TodoPresentation from './TodoPresentation';
+import TodoPresentation from '../Presentations/TodoPresentation';
 
 interface Todo {
   idUser: number;
@@ -32,10 +32,10 @@ export function App() {
     setItems(updatedItems);
   };
 
-  const penddingItems = Items.filter(item => item.status == false);
+  const penddingItems = Items.filter(item => item.status == false && item.idUser == 1);
 
   return <TodoPresentation
-    todos={penddingItems}
+    todos={Items}
     onToggleStatus={handleToggleStatus}
   />
 }
