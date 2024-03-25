@@ -31,6 +31,7 @@ interface Todo {
     const [Fecha, setFecha] = React.useState<string>('');
     const [Etiqueta, setEtiqueta] = React.useState<string>('');
     const [Estado, setEstado] = React.useState<boolean>(Boolean);
+    const [Id, setId] = React.useState<number>(0);
     const [todo, setTodo] = React.useState<Todo>({
       idUser: 0,
       id: 0,
@@ -65,15 +66,9 @@ interface Todo {
     const fechaInput = (event:any) => {
       setFecha(event.target.value)
     }
-
-    const estadoInicial = (event:any) => {
-      setEstado(!Estado)
-      console.log(Estado)
-    }
-
-    const estadoInput = (status: boolean) => {
-      setEstado(!status)
-      console.log(Estado)
+    
+    const estadoInput = (event:any, status: boolean) => {
+      setEstado(status)
     }
 
     const etiquetaInput = (event:any) => {
@@ -83,12 +78,14 @@ interface Todo {
     const handleSubmit = () => {
       setTodo({
         idUser: 0,
-        id: 0,
+        id: Id,
         description: Descripcion,
         status: Estado,
         date: Fecha,
         tagId: 0
       });
+
+      console.log(todo)
       
       fetch('https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/1',{ method: 'PUT', body: JSON.stringify(todo) });
     }
@@ -99,6 +96,7 @@ interface Todo {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
+      onClose={handleClose}
       closeAfterTransition
       BackdropProps={{
         timeout: 500,
@@ -116,13 +114,15 @@ interface Todo {
                 boxShadow: 24,
                 p: 4,
                 minWidth: 300,
+                color: '#000',
               }}
               >
               
               {dataTask.map(data => (
               <div key={data.id}>
-                
-                Tarea: {data.description}
+                <h3>
+                  Tarea: {data.description} Id: {data.id}
+                </h3>
                 <Typography id="spring-modal-description" sx={{ mt: 2 }}>
                   <FormLabel>Descripcion</FormLabel>
                   <Input  
@@ -151,7 +151,7 @@ interface Todo {
                   <Checkbox 
                     label={data.status == true ? 'Terminada' : 'En proceso'} 
                     defaultChecked={data.status == true}
-                    // onChange={}
+                    onChange={(e) => estadoInput(e, e.target.checked)}
                     />
                 </Typography>
               

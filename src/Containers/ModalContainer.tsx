@@ -17,21 +17,29 @@ interface Todo {
   }
 
   interface ModalContainerProps {
+    openModal: boolean;
+    handleOpenModal: () => void;
     taskId: number;
   }
 
-  const ModalContainer: React.FC<ModalContainerProps> = ({ taskId }) => {
+  const ModalContainer: React.FC<ModalContainerProps> = ({ openModal, handleOpenModal, taskId }) => {
     const [open, setOpen] = useState(false);
     const [todos, setTodos] = useState<Todo[]>([]);
     const [tags, setTags] = useState<Tags[]>([]);
   
     const handleOpen = () => {
-      fetchTags();
       fetchData(taskId)
       setOpen(true);
     };
+
+    useEffect(() => {
+      if (openModal)  {
+        handleOpen();
+      }
+    }, [openModal]);
   
     const handleClose = () => {
+      handleOpenModal();
       setOpen(false);
     };
   
@@ -65,7 +73,6 @@ interface Todo {
     return (
       <div>
         <ModalPresentation open={open} handleClose={()=>handleClose()} dataTask={todos} tags={tags}/>
-        <Button onClick={handleOpen}>Open modal</Button>
       </div>
     );
   };

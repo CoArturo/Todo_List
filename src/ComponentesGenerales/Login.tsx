@@ -69,7 +69,7 @@ const LoginContainer: React.FC = () => {
     <div className="containerLogin">
       <div className="controlesL">
         <div className="login">
-          <h2>Login</h2>
+          <h1>Login</h1>
           
           <div className="inputs">
             <Input

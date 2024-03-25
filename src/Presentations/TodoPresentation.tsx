@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme, CssBaseline, Card, CardContent, Button, Typography } from "@mui/material";
 import ModalContainer from "../Containers/ModalContainer";
 import "../Styles/Cards.css";
+import { useState } from "react";
 
 
 interface Todo {
@@ -21,6 +22,18 @@ const TodoPresentation: React.FC<TodoListProps> = ({
   todos,
   onToggleStatus,
 }) => {
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [Id, setId] = useState<number>(1);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const cambiarId = (id: number) => {
+    setId(id)
+  };
+
   return (
     <div className="container">
       <div className="contenedorCards">
@@ -56,13 +69,17 @@ const TodoPresentation: React.FC<TodoListProps> = ({
                     {todo.status == true ? "completada" : "pendiente"}
                   </Button>
 
-                  <ModalContainer taskId={todo.id}/>
-
+                  <Button onClick={()=>{handleOpenModal(); cambiarId(todo.id)}}>Open modal</Button>
                 </Typography>
               </CardContent>
             </Card>
           );
         })}
+
+
+        {/* logica del modal cambiada, esta en trabajo solo abre una sola vez */}
+        <ModalContainer openModal={openModal} handleOpenModal={handleOpenModal} taskId={Id}/>
+      
       </div>
     </div>
   );
