@@ -10,7 +10,7 @@ interface Todo {
   tagId: number;
 }
 
-export function PendingTask() {
+export function FinishedTask() {
 
   const [Items, setItems] = useState<Todo[]>([])
   const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`
@@ -34,7 +34,7 @@ export function PendingTask() {
     console.log(Items)
   };
 
-  const penddingItems = Items.filter(item => item.status == false && item.idUser == 1);
+  const penddingItems = Items.filter(item => item.status == true && item.idUser == 1);
 
   return <TodoPresentation
     todos={penddingItems}
@@ -42,4 +42,4 @@ export function PendingTask() {
   />
 }
 
-export default PendingTask
+export default FinishedTask

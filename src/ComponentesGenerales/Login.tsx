@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import {Input, Button} from '@mui/joy';
+import '../Styles/Login.css'
 import jwtDecode from "jwt-decode";
 import Cookies from "universal-cookie";
+import {themes} from '../Styles/Style-Components/Theme'
 
 interface User {
   id: number;
@@ -16,6 +19,12 @@ const LoginContainer: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [cookies, setCookie, removeCookie] = useCookies();
+  
+  const ThemeContext = React.createContext({
+    theme: 'light',
+    toggleTheme: () => {}
+  });
+
 
   if(cookies)
     {
@@ -57,26 +66,34 @@ const LoginContainer: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="Usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+    <div className="containerLogin">
+      <div className="controlesL">
+        <div className="login">
+          <h2>Login</h2>
+          
+          <div className="inputs">
+            <Input
+              type="text"
+              placeholder="Usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+
+          <div className="inputs">
+            <Input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <Button onClick={handleLogin}>Iniciar sesión</Button>
+          {error && <div>{error}</div>}
+        </div>
+
       </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button onClick={handleLogin}>Iniciar sesión</button>
-      {error && <div>{error}</div>}
     </div>
   );
 };

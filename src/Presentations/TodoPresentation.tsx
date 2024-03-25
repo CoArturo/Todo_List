@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import "../App.css"
+import { ThemeProvider, createTheme, CssBaseline, Card, CardContent, Button, Typography } from "@mui/material";
+import ModalContainer from "../Containers/ModalContainer";
+import "../Styles/Cards.css";
 
 
 interface Todo {
@@ -22,58 +17,53 @@ interface TodoListProps {
   onToggleStatus: (todoId: number) => void;
 }
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
 const TodoPresentation: React.FC<TodoListProps> = ({
   todos,
   onToggleStatus,
 }) => {
   return (
-    <div className="contenedorCards">
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-      </ThemeProvider>
-      {todos.map((todo) => {
-        return (
-          <Card key={todo.id} sx={{ minWidth: 350 }} className="card">
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {todo.tagId === 1
-                  ? "Daily routine"
-                  : todo.tagId === 2
-                  ? "School"
-                  : todo.tagId === 3
-                  ? "Work"
-                  : ""}
-              </Typography>
-              
-              <Typography variant="h5" component="div">
-                {todo.description}
-              </Typography>
+    <div className="container">
+      <div className="contenedorCards">
+        {todos.map((todo) => {
+          return (
+            <Card key={todo.id} sx={{ minWidth: 350 }} className="card">
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {todo.tagId === 1
+                    ? "Daily routine"
+                    : todo.tagId === 2
+                    ? "School"
+                    : todo.tagId === 3
+                    ? "Work"
+                    : ""}
+                </Typography>
+                
+                <Typography variant="h5" component="div">
+                  {todo.description}
+                </Typography>
 
-              <Typography variant="body2">
+                <Typography variant="body2" className="controles">
+                  <Button
+                    size="small"
+                    variant={todo.status == true ? "outlined" : "contained"}
+                    color={todo.status == true ? "success" : "error"}
+                    onClick={() => onToggleStatus(todo.id)}
+                    >
+                    {todo.status == true ? "completada" : "pendiente"}
+                  </Button>
 
-                <Button
-                  size="small"
-                  variant={todo.status == true ? "outlined" : "contained"}
-                  color={todo.status == true ? "success" : "error"}
-                  onClick={() => onToggleStatus(todo.id)}
-                  >
-                  {todo.status == true ? "completada" : "pendiente"}
-                </Button>
-              </Typography>
-            </CardContent>
-          </Card>
-        );
-      })}
+                  <ModalContainer taskId={todo.id}/>
+
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 };

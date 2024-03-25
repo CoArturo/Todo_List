@@ -1,45 +1,73 @@
-import React from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import '../App.css'
+import React, { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
+import "../Styles/Nav.css";
+
+const links = [
+  {
+    name: "Pending",
+    href: "./pending"
+  },
+  {
+    name: "Finished",
+    href: "./finished"
+  },
+  {
+    name: "Login",
+    href: "./login"
+  }
+]
 
 
 export default function BasicMenu() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
   
+  const [estilo, setEstilo] = useState('show');
+
+  // Función para cambiar el estilo
+  
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  const cambiarEstilo = () => {
+    // Cambia el estilo según el estado actual
+    setEstilo(estilo === 'show' ? 'hide' : 'show');
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (windowSize.width > 600 && estilo == 'hide') {
+      cambiarEstilo()
+      console.log("Hola")
+    }
+  }, [windowSize]);
+  
+
     return (
-      <div className='menu'>
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
-      </div>
+      <>
+        <button className='menu' onClick={cambiarEstilo}><i className="fa-solid fa-bars"></i></button>
+        <nav className={estilo}>
+          <ol className={estilo}>
+            {links.map(link => (
+              <Link className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
+            ))}
+            <li className='cerrar' onClick={cambiarEstilo}>
+              Cerrar
+            </li>
+            <li id='logout' className={estilo}>Log Out</li>
+          </ol>
+        </nav>
+      </>
     );
   }
