@@ -13,7 +13,7 @@ const links = [
   },
   {
     name: "Login",
-    href: "./login"
+    href: "./"
   }
 ]
 
