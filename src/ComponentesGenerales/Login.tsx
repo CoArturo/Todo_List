@@ -47,6 +47,7 @@ const LoginContainer: React.FC = () => {
           user.user
         )}&password=${encodeURIComponent(user.clave)}`;
 
+        alert("Usuario existente:" + token)
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 1);
 
