@@ -16,7 +16,7 @@ export const Main = () => {
             <Routes>
                 <Route path='/pending' element={<PendingTask/>}/>
                 <Route path='/finished' element={<FinishedTask/>}/>
-                <Route path='/login' element={<LoginContainer/>}/>
+                <Route path='/' element={<LoginContainer/>} />
             </Routes>
     </div>
         </BrowserRouter>
