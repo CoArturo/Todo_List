@@ -4,14 +4,17 @@ import "../Styles/Nav.css";
 
 const links = [
   {
+    id: 1,
     name: "Pending",
     href: "./pending"
   },
   {
+    id: 2,
     name: "Finished",
     href: "./finished"
   },
   {
+    id: 3,
     name: "Login",
     href: "./"
   }
@@ -30,8 +33,8 @@ export default function BasicMenu() {
   });
   
   const cambiarEstilo = () => {
-    // Cambia el estilo según el estado actual
     setEstilo(estilo === 'show' ? 'hide' : 'show');
+    console.log(estilo)
   };
 
   useEffect(() => {
@@ -56,11 +59,13 @@ export default function BasicMenu() {
 
     return (
       <>
-        <button className='menu' onClick={cambiarEstilo}><i className="fa-solid fa-bars"></i></button>
+        <button className='menu' onClick={cambiarEstilo}>
+          <i className="fa-solid fa-bars"></i>
+        </button>
         <nav className={estilo}>
           <ol className={estilo}>
             {links.map(link => (
-              <Link className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
+              <Link key={link.id} className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
             ))}
             <li className='cerrar' onClick={cambiarEstilo}>
               Cerrar

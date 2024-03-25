@@ -8,6 +8,7 @@
 
 nav
 {
+    z-index: 1;
     color: #fff;
     background-color: #000;
     width: 250px;
@@ -79,6 +80,7 @@ li:hover
 .menu
 {
     position: absolute;
+    z-index: 1;
     top: 2rem;
     left: 2rem;
     background-color: transparent;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import {Input, Button} from '@mui/joy';
 import '../Styles/Login.css'
@@ -25,11 +25,9 @@ const LoginContainer: React.FC = () => {
     toggleTheme: () => {}
   });
 
-
-  if(cookies)
-    {
-    console.log(cookies)
-    }
+  useEffect(()=>{
+      if(cookies){console.log(cookies)}
+  },[])
     
     const handleLogin = async () => {
     try {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Button from '@mui/material/Button';
+import {CircularProgress, Box} from '@mui/material';
 import ModalPresentation from '../Presentations/ModalPresentation';
+import '../Styles/Cards.css'
+
 
 interface Todo {
     idUser: number;
@@ -11,11 +13,6 @@ interface Todo {
     tagId: number;
   }
 
-  interface Tags {
-    id: number,
-    name: string
-  }
-
   interface ModalContainerProps {
     openModal: boolean;
     handleOpenModal: () => void;
@@ -24,13 +21,23 @@ interface Todo {
 
   const ModalContainer: React.FC<ModalContainerProps> = ({ openModal, handleOpenModal, taskId }) => {
     const [open, setOpen] = useState(false);
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const [tags, setTags] = useState<Tags[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [todos, setTodos] = useState<Todo>({
+      idUser: 0,
+      id: 0,
+      description: '',
+      status: true,
+      date: '',
+      tagId: 0,
+    });
   
-    const handleOpen = () => {
-      fetchData(taskId)
+    const handleOpen = async () => { 
+      setLoading(true); 
       setOpen(true);
-    };
+      await fetchData(taskId);
+      setLoading(false); 
+  };
+  
 
     useEffect(() => {
       if (openModal)  {
@@ -43,36 +50,32 @@ interface Todo {
       setOpen(false);
     };
   
-    const fetchData = (taskId: number) => {
-      fetch(`https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/${taskId}`)
-        .then((resp) => resp.json())
-        .then((data: Todo) => {
-          setTodos([data]);
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
+    const fetchData = async (taskId: number) => {
+      try {
+        const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/${taskId}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error('La respuesta no es ok');
+        }
+        const data: Todo = await response.json();
+        setTodos(data);
+      } catch (error) {
+        console.error('Error fetching de datos:', error);
+      }
     };
-
-    const fetchTags = () => {
-      fetch(`https://my-json-server.typicode.com/CoArturo/MonckAPI/tags`)
-        .then((resp) => resp.json())
-        .then((datas: Tags) => {
-          setTags([datas]);
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-    };
-  
-    useEffect(() => {
-      fetchTags();
-      fetchData(taskId);
-    }, []);
   
     return (
       <div>
-        <ModalPresentation open={open} handleClose={()=>handleClose()} dataTask={todos} tags={tags}/>
+        {loading ? (
+              <div className="loading">
+                <CircularProgress className="load"/>
+              </div>
+            ) : (
+              <div>
+                <ModalPresentation open={open} handleClose={handleClose} dataTask={todos} />
+              </div>
+            )}
       </div>
     );
   };

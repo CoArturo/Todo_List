@@ -19,14 +19,14 @@ interface Todo {
   interface ModalPresentationProps {
     open: boolean;
     handleClose: () => void;
-    dataTask: Todo[];
-    tags: Tags[];
+    dataTask: Todo;
   }
 
 
   
-  const ModalPresentation: React.FC<ModalPresentationProps> = ({ open, handleClose, dataTask, tags }) => 
+  const ModalPresentation: React.FC<ModalPresentationProps> = ({ open, handleClose, dataTask }) => 
   {
+    const [modal, setmodal] = React.useState<boolean>(Boolean)
     const [Descripcion, setDescripcion] = React.useState<string>('');
     const [Fecha, setFecha] = React.useState<string>('');
     const [Etiqueta, setEtiqueta] = React.useState<string>('');
@@ -41,6 +41,13 @@ interface Todo {
       tagId: 0
     });
 
+    React.useEffect(()=>{
+      setTodo(dataTask)
+    },[modal])
+
+    const modalCambio = () => {
+      setmodal(!modal)
+    }
 
     //Manejo de fecha
     const today = new Date();
@@ -84,8 +91,6 @@ interface Todo {
         date: Fecha,
         tagId: 0
       });
-
-      console.log(todo)
       
       fetch('https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/1',{ method: 'PUT', body: JSON.stringify(todo) });
     }
@@ -96,7 +101,7 @@ interface Todo {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
-      onClose={handleClose}
+      onClose={()=>{handleClose(); modalCambio();}}
       closeAfterTransition
       BackdropProps={{
         timeout: 500,
@@ -118,15 +123,15 @@ interface Todo {
               }}
               >
               
-              {dataTask.map(data => (
-              <div key={data.id}>
+              
+              <div key={todo.id}>
                 <h3>
-                  Tarea: {data.description} Id: {data.id}
+                  Tarea: {todo.description} Id: {todo.id}
                 </h3>
                 <Typography id="spring-modal-description" sx={{ mt: 2 }}>
                   <FormLabel>Descripcion</FormLabel>
                   <Input  
-                    defaultValue={data.description}
+                    defaultValue={todo.description}
                     onChange={descripcionInput}
                     />
                 </Typography>
@@ -135,7 +140,7 @@ interface Todo {
                   <FormLabel>Fecha</FormLabel>
                   <Input
                     type="date" 
-                    defaultValue={data.date}
+                    defaultValue={todo.date}
                     onChange={fechaInput}
                     slotProps={{
                       input: {
@@ -149,8 +154,8 @@ interface Todo {
                 <Typography id="spring-modal-description" sx={{ mt: 2 }}>
                 <FormLabel>Estado</FormLabel>
                   <Checkbox 
-                    label={data.status == true ? 'Terminada' : 'En proceso'} 
-                    defaultChecked={data.status == true}
+                    label={todo.status == true ? 'Terminada' : 'En proceso'} 
+                    defaultChecked={todo.status == true}
                     onChange={(e) => estadoInput(e, e.target.checked)}
                     />
                 </Typography>
@@ -158,7 +163,7 @@ interface Todo {
                 <Typography id="spring-modal-description" sx={{ mt: 2 }}>
                   <FormLabel>Etiqueta</FormLabel>
                   <Input 
-                    defaultValue={data.tagId === 1 ? 'Daily routine' : data.tagId === 2 ? 'School' : 'Work'}
+                    defaultValue={todo.tagId === 1 ? 'Daily routine' : todo.tagId === 2 ? 'School' : 'Work'}
                     onChange={etiquetaInput}
                     type="text" 
                   />                
@@ -171,7 +176,7 @@ interface Todo {
                   </Typography>
                 </Stack>
               </div>
-            ))}
+
             </Box>
           </Fade>
         </Modal>
