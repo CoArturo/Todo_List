@@ -39,6 +39,21 @@ h1
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.accont
+{
+    width: calc(100% - 4rem);;
+    display: flex;
+    justify-content: end;
+    padding-bottom: 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.accont:hover
+{
+    color: rgb(36, 87, 163);
+}
+
 .inputs
 {
     width: calc(100% - 4rem);
@@ -50,6 +65,13 @@ h1
     width: 400px;
     margin: 0 1rem 0 1rem;
     height: 400px;
+}
+
+.alerta
+{
+    position: absolute;
+    bottom: 200px;
+    width: 300px;
 }
 
 @media (max-width: 600px)
@@ -64,3 +86,25 @@ h1
         width: calc(100% - 4rem);;
     }
 }
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    30%{
+        opacity: 1;
+    }40%{
+        opacity: 1;
+    }50%{
+        opacity: 0;
+    }100%{
+        opacity: 0;
+    }
+  }
+  
+  .fadeIn {
+    animation: fadeIn 5000ms ease both;
+  }

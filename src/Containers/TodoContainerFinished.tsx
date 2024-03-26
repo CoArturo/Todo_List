@@ -1,13 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import TodoPresentation from '../Presentations/TodoPresentation';
 import { Todo } from "../Interfaces/Todo";
 import {CircularProgress} from '@mui/material';
+import { UserContext } from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 export function FinishedTask() {
 
   const [Items, setItems] = useState<Todo[]>([])
   const [loading, setLoading] = useState(false);
   const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`
+  
+  const { usuario } = useContext(UserContext)
+
+  const navigate = useNavigate();
+  const cookies = new Cookies();
   
   const fecthApi = async function() {
     try {
@@ -27,6 +35,10 @@ export function FinishedTask() {
 
   useEffect(()=>{
     obtenerData() 
+    if(!cookies.get('jwt'))
+      {
+        navigate('/')
+      }
   }, [])
 
   const handleToggleStatus = (id: number) => {
@@ -38,7 +50,7 @@ export function FinishedTask() {
     console.log(Items)
   };
 
-  const penddingItems = Items.filter(item => item.status == true && item.idUser == 1);
+  const penddingItems = Items.filter(item => item.status == true && item.idUser == usuario.id);
 
   return (
 

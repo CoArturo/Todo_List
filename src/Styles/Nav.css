@@ -16,8 +16,6 @@ nav
     transition: ease all .5s;
 }
 
-
-
 ol
 {
     display: flex;
@@ -27,7 +25,6 @@ ol
     position: sticky;
     top: 0;
 }
-
 
 li, a
 {
@@ -41,6 +38,7 @@ li, a
     padding-right: 20px;
     transition: ease all .2s;
     font-size: 1.2em;
+    cursor: pointer;
 }
 
 #logout

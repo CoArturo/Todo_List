@@ -1,43 +1,37 @@
-import React, { useEffect, useState, createContext, useContext  } from "react";
+import React, { useEffect, useState, useContext  } from "react";
 import {Input, Button} from '@mui/joy';
 import { User } from "../Interfaces/User";
-import { UserContext, UserProvider } from '../Context/UserContext';
-import  Redirect, { Navigate, useNavigate }  from 'react-router-dom';
-import '../Styles/Login.css'
+import { Alert } from '@mui/material';
+import { UserContext} from '../Context/UserContext';
 import Cookies from "universal-cookie";
-import jwt from 'jsonwebtoken';
-import ModalContainer from "../Containers/ModalContainer";
+import  { useNavigate }  from 'react-router-dom';
+import '../Styles/Login.css'
 
 
 export const LoginContainer: React.FC = () => {
 
-
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [User, setUser] = useState<any>(null)
 
-  const [UsuarioA, setUsuarioA] = useState<User>({
-    id: 0,
-    user: '',
-    name: '',
-    clave: '',
-    theme: ''
-  });
-
-  
+  const [animate, setAnimate] = useState(false);
   
   const { setUsuario } = useContext(UserContext)
   const { usuario } = useContext(UserContext)
   
   const navigate = useNavigate();
-
-  const userInfo: User = UsuarioA;
-  const key: string = 'ponatencionnotienesenemigos';
-
-
   const cookies = new Cookies();
+
+  // Llave secre para token
+  // const key: string = 'ponatencionnotienesenemigos';
+
+  const handleClick = () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 5000);
+  };
 
   useEffect(()=>{
       if(cookies.get('jwt'))
@@ -70,12 +64,18 @@ export const LoginContainer: React.FC = () => {
 
 
   const obtenerData = async() =>{
-    setLoading(true);
     await handleLogin()
-    setLoading(false);
     console.log(cookies)
     console.log(User)
   }
+
+  useEffect(()=>{
+    handleClick()
+    setTimeout(() => {
+      setError('')
+    }, 5000);
+  },[error])
+
     
   const handleLogin = async () => {
 
@@ -125,9 +125,15 @@ export const LoginContainer: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
+          <small className="accont">Need account?</small>
+          
           <Button onClick={obtenerData}>Iniciar sesión</Button>
-          {error && <div>{error}</div>}
+          <div className="alerta">
+            {error && 
+              <Alert className={animate ? 'fadeIn' : ''} severity="error">{error}</Alert>
+            }
+          </div>
+
         </div>
       </div>
     ) 

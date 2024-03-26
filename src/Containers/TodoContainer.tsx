@@ -4,6 +4,8 @@ import { Todo } from "../Interfaces/Todo";
 import {CircularProgress} from '@mui/material';
 import '../Styles/Cards.css'
 import { UserContext } from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 
 export function PendingTask() {
@@ -12,6 +14,11 @@ export function PendingTask() {
   const [loading, setLoading] = useState(false);
   const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`;
   
+  const { usuario } = useContext(UserContext)
+
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+
   const fecthApi = async function() {
     try {
       const resp = await fetch(url);
@@ -30,6 +37,10 @@ export function PendingTask() {
 
   useEffect(()=>{
     obtenerData()
+    if(!cookies.get('jwt'))
+      {
+        navigate('/')
+      }
   }, [])
 
   const handleToggleStatus = (id: number) => {
@@ -39,7 +50,7 @@ export function PendingTask() {
     setItems(updatedItems);
   };
 
-  const penddingItems = Items.filter(item => item.status == false && item.idUser == 1);
+  const penddingItems = Items.filter(item => item.status == false && item.idUser == usuario.id);
 
   return (
 

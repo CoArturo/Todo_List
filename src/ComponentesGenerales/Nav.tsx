@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import "../Styles/Nav.css";
 import { UserContext } from '../Context/UserContext';
 import { themes } from '../Styles/Style-Components/Theme';
+import "../Styles/Nav.css";
 import Cookies from 'universal-cookie';
 
 const links = [
@@ -18,19 +18,19 @@ const links = [
   },
   {
     id: 3,
-    name: "Login",
-    href: "./"
+    name: "Profile",
+    href: "./profile"
   },
   {
     id: 4,
-    name: "Profile",
-    href: "./profile"
+    name: "Register",
+    href: "./register"
   }
 ]
 
 export default function BasicMenu() {
   
-  const { setUsuario, usuario } = useContext(UserContext)
+  const { usuario } = useContext(UserContext)
   const [estilo, setEstilo] = useState('show');
   const cookies = new Cookies();
   const navigate = useNavigate();
@@ -71,25 +71,23 @@ export default function BasicMenu() {
     }
   }, [windowSize]);
 
-  const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : themes.Tema2;
-  const estiloUsuario2 = themes.Tema1;
-
+  const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : usuario.theme === 'Tema2' ? themes.Tema2 : {};
     return (
       <>
         <button className='menu' onClick={cambiarEstilo}>
           <i className="fa-solid fa-bars"></i>
         </button>
         <nav
-          style={estiloUsuario} 
+          style={{}}
           className={estilo}>
-          <ol className={estilo}>
+          <ol style={estiloUsuario} className={estilo}>
             {links.map(link => (
-              <Link key={link.id} className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
+              <Link style={estiloUsuario} key={link.id} className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
             ))}
-            <li className='cerrar' onClick={cambiarEstilo}>
+            <li style={estiloUsuario} className='cerrar' onClick={cambiarEstilo}>
               Cerrar
             </li>
-            <li id='logout' 
+            <li style={estiloUsuario} id='logout' 
               onClick={logOut} 
               className={estilo}>
                 Log Out

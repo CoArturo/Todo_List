@@ -1,0 +1,22 @@
+.Tema1{
+    background-color: #ffffff;
+    color: #000000;
+    
+  }
+
+  .Tema1 li,a:hover
+  {
+    background-color: #f54343;
+    Color: #ffff;
+  }
+
+  .Tema2{
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .Tema2:hover
+  {
+    background-color: #f54343;
+    Color: #000000;
+  }
