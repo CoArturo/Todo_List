@@ -1,28 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import TodoPresentation from '../Presentations/TodoPresentation';
+import { Todo } from "../Interfaces/Todo";
+import {CircularProgress} from '@mui/material';
+import '../Styles/Cards.css'
+import { UserContext } from '../Context/UserContext';
 
-interface Todo {
-  idUser: number;
-  id: number;
-  description: string;
-  status: boolean;
-  date: string;
-  tagId: number;
-}
 
 export function PendingTask() {
 
-  const [Items, setItems] = useState<Todo[]>([])
-  const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`
+  const [Items, setItems] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(false);
+  const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`;
   
-  const fecthApi = function() {
-    fetch(url)
-    .then((resp) => resp.json())
-    .then((resp) => setItems(resp))
+  const fecthApi = async function() {
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      setItems(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const obtenerData = async()=> {
+    setLoading(true);
+    await fecthApi()
+    setLoading(false);
   }
 
   useEffect(()=>{
-    fecthApi()
+    obtenerData()
   }, [])
 
   const handleToggleStatus = (id: number) => {
@@ -30,16 +37,28 @@ export function PendingTask() {
       item.id === id ? { ...item, status: !item.status } : item
     );
     setItems(updatedItems);
-    console.log(Items)
-    console.log(Items)
   };
 
   const penddingItems = Items.filter(item => item.status == false && item.idUser == 1);
 
-  return <TodoPresentation
-    todos={penddingItems}
-    onToggleStatus={handleToggleStatus}
-  />
+  return (
+
+    <>
+      {loading ? (
+        <div className="loadingCards">
+          <CircularProgress className="load"/>
+        </div>  
+        ) : (
+        <>
+          <TodoPresentation
+          todos={penddingItems}
+          onToggleStatus={handleToggleStatus}
+          />
+        </>
+        )
+      }
+    </>
+  )
 }
 
 export default PendingTask

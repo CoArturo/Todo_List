@@ -1,63 +1,100 @@
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { useEffect, useState, createContext, useContext  } from "react";
 import {Input, Button} from '@mui/joy';
+import { User } from "../Interfaces/User";
+import { UserContext, UserProvider } from '../Context/UserContext';
+import  Redirect, { Navigate, useNavigate }  from 'react-router-dom';
 import '../Styles/Login.css'
-import jwtDecode from "jwt-decode";
 import Cookies from "universal-cookie";
-import {themes} from '../Styles/Style-Components/Theme'
+import jwt from 'jsonwebtoken';
+import ModalContainer from "../Containers/ModalContainer";
 
-interface User {
-  id: number;
-  user: string;
-  name: string;
-  clave: string;
-  theme: string;
-}
 
-const LoginContainer: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies();
-  
-  const ThemeContext = React.createContext({
-    theme: 'light',
-    toggleTheme: () => {}
+export const LoginContainer: React.FC = () => {
+
+
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [User, setUser] = useState<any>(null)
+
+  const [UsuarioA, setUsuarioA] = useState<User>({
+    id: 0,
+    user: '',
+    name: '',
+    clave: '',
+    theme: ''
   });
 
-  useEffect(()=>{
-      if(cookies){console.log(cookies)}
-  },[])
-    
-    const handleLogin = async () => {
-    try {
-      const response = await fetch(
-        "https://my-json-server.typicode.com/CoArturo/MonckAPI/usuarios"
-      );
-      const data: User[] = await response.json();
+  
+  
+  const { setUsuario } = useContext(UserContext)
+  const { usuario } = useContext(UserContext)
+  
+  const navigate = useNavigate();
 
+  const userInfo: User = UsuarioA;
+  const key: string = 'ponatencionnotienesenemigos';
+
+
+  const cookies = new Cookies();
+
+  useEffect(()=>{
+      if(cookies.get('jwt'))
+      {
+        setUser(cookies.get("jwt"))
+        navigate('/pending')
+      }
+      console.log(cookies)
+      setUsuario(usuario)
+  },[])
+
+
+  const logOut = () =>{
+    setUser(null)
+    cookies.remove("jwt")
+    console.log(User)
+    console.log(cookies)
+  }
+
+  const login = (jwt_token:any) =>{
+    cookies.set("jwt", jwt_token)
+    setUser(jwt_token)
+    cookies.get("jwt_authorization", jwt_token)
+  }
+
+  const generearToken = () =>{
+    const token = 'regregpoefwjfewp';
+    login(token)
+  }
+
+
+  const obtenerData = async() =>{
+    setLoading(true);
+    await handleLogin()
+    setLoading(false);
+    console.log(cookies)
+    console.log(User)
+  }
+    
+  const handleLogin = async () => {
+
+    const url = "https://my-json-server.typicode.com/CoArturo/MonckAPI/usuarios"
+
+    try {
+      const response = await fetch(url);
+      const data: User[] = await response.json();
       const user = data.find(
         (u) => u.user === username && u.clave === password
       );
 
       if (user) {
-        const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6${encodeURIComponent(
-          user.user
-        )}&password=${encodeURIComponent(user.clave)}`;
-
-        alert("Usuario existente:" + token)
-        const expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + 1);
-
-        setCookie("jwt", token, { expires: expirationDate, path: "/" });
-
-        console.log(token)
+        setUsuario(user)
+        generearToken()
 
       } else {
         setError("Usuario o contraseña incorrectos");
       }
-
-      
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       setError("Error al iniciar sesión");
@@ -66,6 +103,7 @@ const LoginContainer: React.FC = () => {
 
   return (
     <div className="containerLogin">
+    {User == null ? (
       <div className="controlesL">
         <div className="login">
           <h1>Login</h1>
@@ -88,13 +126,21 @@ const LoginContainer: React.FC = () => {
             />
           </div>
 
-          <Button onClick={handleLogin}>Iniciar sesión</Button>
+          <Button onClick={obtenerData}>Iniciar sesión</Button>
           {error && <div>{error}</div>}
         </div>
-
       </div>
+    ) 
+    : 
+    (
+      <div>
+        <Button onClick={logOut}>Borrar token</Button>
+      </div>
+    )}
     </div>
+    
   );
 };
+
 
 export default LoginContainer;

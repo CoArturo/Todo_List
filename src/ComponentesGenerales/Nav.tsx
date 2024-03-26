@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from "react-router-dom";
 import "../Styles/Nav.css";
+import { UserContext } from '../Context/UserContext';
+import { themes } from '../Styles/Style-Components/Theme';
+import Cookies from 'universal-cookie';
 
 const links = [
   {
@@ -17,16 +20,22 @@ const links = [
     id: 3,
     name: "Login",
     href: "./"
+  },
+  {
+    id: 4,
+    name: "Profile",
+    href: "./profile"
   }
 ]
 
-
 export default function BasicMenu() {
   
+  const { setUsuario, usuario } = useContext(UserContext)
   const [estilo, setEstilo] = useState('show');
-
+  const cookies = new Cookies();
+  const navigate = useNavigate();
   // Función para cambiar el estilo
-  
+
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
@@ -36,6 +45,12 @@ export default function BasicMenu() {
     setEstilo(estilo === 'show' ? 'hide' : 'show');
     console.log(estilo)
   };
+
+  const logOut = () =>{
+    cookies.remove("jwt")
+    console.log(cookies)
+    navigate('/')
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,14 +70,18 @@ export default function BasicMenu() {
       console.log("Hola")
     }
   }, [windowSize]);
-  
+
+  const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : themes.Tema2;
+  const estiloUsuario2 = themes.Tema1;
 
     return (
       <>
         <button className='menu' onClick={cambiarEstilo}>
           <i className="fa-solid fa-bars"></i>
         </button>
-        <nav className={estilo}>
+        <nav
+          style={estiloUsuario} 
+          className={estilo}>
           <ol className={estilo}>
             {links.map(link => (
               <Link key={link.id} className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
@@ -70,7 +89,11 @@ export default function BasicMenu() {
             <li className='cerrar' onClick={cambiarEstilo}>
               Cerrar
             </li>
-            <li id='logout' className={estilo}>Log Out</li>
+            <li id='logout' 
+              onClick={logOut} 
+              className={estilo}>
+                Log Out
+            </li>
           </ol>
         </nav>
       </>

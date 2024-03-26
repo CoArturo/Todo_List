@@ -1,17 +1,8 @@
-import { ThemeProvider, createTheme, CssBaseline, Card, CardContent, Button, Typography } from "@mui/material";
+import { Card, CardContent, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import { Todo } from "../Interfaces/Todo";
 import ModalContainer from "../Containers/ModalContainer";
 import "../Styles/Cards.css";
-import { useEffect, useState } from "react";
-
-
-interface Todo {
-  idUser: number;
-  id: number;
-  description: string;
-  status: boolean;
-  date: string;
-  tagId: number;
-}
 
 interface TodoListProps {
   todos: Todo[];

@@ -1,9 +1,9 @@
 export const themes = {
-    light: {
+    Tema1: {
       backgroundColor: '#ffffff',
       color: '#000000',
     },
-    dark: {
+    Tema2: {
       backgroundColor: '#000000',
       color: '#ffffff',
     },

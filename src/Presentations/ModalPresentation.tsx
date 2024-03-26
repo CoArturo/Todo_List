@@ -1,31 +1,30 @@
 import * as React from 'react';
 import { Modal, Fade, Box, Typography, Stack   } from '@mui/material';
 import {Input, FormLabel, Checkbox, Button } from '@mui/joy';
+import { Todo } from '../Interfaces/Todo';
+import { UserContext } from '../Context/UserContext';
+import Cookies from "universal-cookie";
+import { useNavigate } from 'react-router-dom';
 
-interface Todo {
-    idUser: number;
-    id: number;
-    description: string;
-    status: boolean;
-    date: string;
-    tagId: number;
-  }
 
-  interface Tags {
-    id: number,
-    name: string
-  }
 
   interface ModalPresentationProps {
     open: boolean;
     handleClose: () => void;
     dataTask: Todo;
   }
-
-
   
   const ModalPresentation: React.FC<ModalPresentationProps> = ({ open, handleClose, dataTask }) => 
   {
+
+    const navigate = useNavigate();
+
+    React.useEffect(()=>{
+      const cookies = new Cookies();
+      if(!cookies){navigate('/login')}
+    },[])
+
+    const {usuario} = React.useContext(UserContext)
     const [modal, setmodal] = React.useState<boolean>(Boolean)
     const [Descripcion, setDescripcion] = React.useState<string>('');
     const [Fecha, setFecha] = React.useState<string>('');
@@ -43,6 +42,7 @@ interface Todo {
 
     React.useEffect(()=>{
       setTodo(dataTask)
+      console.log(usuario)
     },[modal])
 
     const modalCambio = () => {
@@ -84,7 +84,7 @@ interface Todo {
 
     const handleSubmit = () => {
       setTodo({
-        idUser: 0,
+        idUser: usuario.id,
         id: Id,
         description: Descripcion,
         status: Estado,

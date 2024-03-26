@@ -1,28 +1,32 @@
 import { useEffect, useState } from 'react'
 import TodoPresentation from '../Presentations/TodoPresentation';
-
-interface Todo {
-  idUser: number;
-  id: number;
-  description: string;
-  status: boolean;
-  date: string;
-  tagId: number;
-}
+import { Todo } from "../Interfaces/Todo";
+import {CircularProgress} from '@mui/material';
 
 export function FinishedTask() {
 
   const [Items, setItems] = useState<Todo[]>([])
+  const [loading, setLoading] = useState(false);
   const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`
   
-  const fecthApi = function() {
-    fetch(url)
-    .then((resp) => resp.json())
-    .then((resp) => setItems(resp))
+  const fecthApi = async function() {
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      setItems(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const obtenerData = async()=> {
+    setLoading(true);
+    await fecthApi()
+    setLoading(false);
   }
 
   useEffect(()=>{
-    fecthApi()
+    obtenerData() 
   }, [])
 
   const handleToggleStatus = (id: number) => {
@@ -36,10 +40,24 @@ export function FinishedTask() {
 
   const penddingItems = Items.filter(item => item.status == true && item.idUser == 1);
 
-  return <TodoPresentation
-    todos={penddingItems}
-    onToggleStatus={handleToggleStatus}
-  />
+  return (
+
+    <>
+      {loading ? (
+        <div className="loadingCards">
+          <CircularProgress className="load"/>
+        </div>  
+        ) : (
+        <>
+          <TodoPresentation
+          todos={penddingItems}
+          onToggleStatus={handleToggleStatus}
+          />
+        </>
+        )
+      }
+    </>
+  )
 }
 
 export default FinishedTask

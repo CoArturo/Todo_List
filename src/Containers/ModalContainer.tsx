@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
-import {CircularProgress, Box} from '@mui/material';
+import {CircularProgress} from '@mui/material';
+import { Todo } from "../Interfaces/Todo";
 import ModalPresentation from '../Presentations/ModalPresentation';
 import '../Styles/Cards.css'
-
-
-interface Todo {
-    idUser: number;
-    id: number;
-    description: string;
-    status: boolean;
-    date: string;
-    tagId: number;
-  }
 
   interface ModalContainerProps {
     openModal: boolean;
@@ -68,14 +59,14 @@ interface Todo {
     return (
       <div>
         {loading ? (
-              <div className="loading">
-                <CircularProgress className="load"/>
-              </div>
-            ) : (
-              <div>
-                <ModalPresentation open={open} handleClose={handleClose} dataTask={todos} />
-              </div>
-            )}
+          <div className="loading">
+            <CircularProgress className="load"/>
+          </div>
+        ) : (
+          <div>
+            <ModalPresentation open={open} handleClose={handleClose} dataTask={todos} />
+          </div>
+        )}
       </div>
     );
   };
