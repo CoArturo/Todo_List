@@ -5,6 +5,7 @@ import { Todo } from '../Interfaces/Todo';
 import { UserContext } from '../Context/UserContext';
 import Cookies from "universal-cookie";
 import { useNavigate } from 'react-router-dom';
+import '../Styles/Cards.css'
 
 import { themes } from '../Styles/Style-Components/Theme';
 
@@ -92,6 +93,10 @@ import { themes } from '../Styles/Style-Components/Theme';
       });
       
       fetch('https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/1',{ method: 'PUT', body: JSON.stringify(todo) });
+    }
+
+    const handleDelete = (taskID: number) => {
+      fetch(`https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/${taskID}`);
     }
 
     const [abrir, setAbrir] = React.useState(false);
@@ -204,8 +209,9 @@ import { themes } from '../Styles/Style-Components/Theme';
               
 
                 <Stack direction="row" spacing={3}>
-                  <Typography id="spring-modal-description" sx={{ mt: 3 }}>
-                    <Button sx={{ ml: 10 }} onClick={() => {handleClose(); handleSubmit();}}>SUBIR</Button>
+                  <Typography className='oposite' id="spring-modal-description" sx={{ mt: 3 }}>
+                    <Button onClick={() => {handleClose(); handleSubmit();}}>SUBIR</Button>
+                    <Button color='danger' onClick={()=>handleDelete(todo.id)}>BORRAR</Button>
                   </Typography>
                 </Stack>
               </div>

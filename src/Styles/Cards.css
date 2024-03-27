@@ -77,6 +77,13 @@ body
     left: 50px;
 }
 
+.oposite
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
 /* @media (min-width: 700px)
 {
     .contenedorCards
