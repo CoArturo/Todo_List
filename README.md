@@ -38,8 +38,23 @@ Componentes Reutilizables y Patrones de Diseño
     utilizados posteriormente, por ejemplo las vistas de tareas penmdientes y realizadas utilizan el mismo
     componente de presentacion.
     
-- Manejo de Estado
+Manejo de Estado
   - Al momento de iniciar sesion se guarda toda la informacion del usuario en un estado para posteriormente
     ser usado, por ejemplo en el perfil aparecera la informacion actual del usuario.
-  
+
+Integración de Librerías de Componentes
+  - Todos los elementos fueron trabajado con material UI para conservar la consistencia en el diseño.
+
+Diseño Responsivo
+  - La aplicacion fue desarrollada con mobile first para facilitar el diseño.
+
+Seguridad:
+   - Al cargar un componente se comprueba si existe un token almacenado en las cookies de lo contrario no
+     se podra acceder a otra pagina que no sea el login o registro y de la misma forma el login solo sera
+     accesible solo si no existe un token en las cookies.
+
+Implementación de TypeScript
+  - Se utilizo TypeScript para agregar tipado a la aplicacion y robustez al codigo.
+  - Se implemento el diseño orientado a interfaces para algunos estados como los que estaban relacionados
+    con los usuarios y las tareas.
    
