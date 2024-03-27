@@ -64,6 +64,7 @@ export function FinishedTask() {
           <TodoPresentation
           todos={penddingItems}
           onToggleStatus={handleToggleStatus}
+          titulo='Tareas realizadas'
           />
         </>
         )

@@ -66,7 +66,6 @@ export const LoginContainer: React.FC = () => {
   const obtenerData = async() =>{
     await handleLogin()
     console.log(cookies)
-    console.log(User)
   }
 
   useEffect(()=>{
@@ -90,8 +89,9 @@ export const LoginContainer: React.FC = () => {
 
       if (user) {
         setUsuario(user)
+        console.log(usuario)
         generearToken()
-
+        navigate("/pending")
       } else {
         setError("Usuario o contraseña incorrectos");
       }
@@ -125,7 +125,7 @@ export const LoginContainer: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <small className="accont">Need account?</small>
+          <small onClick={()=>navigate('/register')} className="accont">Need account?</small>
           
           <Button onClick={obtenerData}>Iniciar sesión</Button>
           <div className="alerta">
@@ -140,7 +140,7 @@ export const LoginContainer: React.FC = () => {
     : 
     (
       <div>
-        <Button onClick={logOut}>Borrar token</Button>
+        <Button onClick={()=>navigate("/pending")}>Tareas</Button>
       </div>
     )}
     </div>

@@ -6,7 +6,7 @@ import '../Styles/Cards.css'
 import { UserContext } from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-
+import { themes } from '../Styles/Style-Components/Theme';
 
 export function PendingTask() {
 
@@ -64,6 +64,7 @@ export function PendingTask() {
           <TodoPresentation
           todos={penddingItems}
           onToggleStatus={handleToggleStatus}
+          titulo='Tareas pendientes'
           />
         </>
         )

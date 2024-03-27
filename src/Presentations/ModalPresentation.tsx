@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Modal, Fade, Box, Typography, Stack   } from '@mui/material';
+import { Modal, Fade, Box, Typography, Stack, MenuItem, FormControl, Select, SelectChangeEvent,  InputLabel   } from '@mui/material';
 import {Input, FormLabel, Checkbox, Button } from '@mui/joy';
 import { Todo } from '../Interfaces/Todo';
 import { UserContext } from '../Context/UserContext';
 import Cookies from "universal-cookie";
 import { useNavigate } from 'react-router-dom';
 
-
+import { themes } from '../Styles/Style-Components/Theme';
 
   interface ModalPresentationProps {
     open: boolean;
@@ -24,11 +24,13 @@ import { useNavigate } from 'react-router-dom';
       if(!cookies){navigate('/login')}
     },[])
 
+
+    
     const {usuario} = React.useContext(UserContext)
     const [modal, setmodal] = React.useState<boolean>(Boolean)
     const [Descripcion, setDescripcion] = React.useState<string>('');
     const [Fecha, setFecha] = React.useState<string>('');
-    const [Etiqueta, setEtiqueta] = React.useState<string>('');
+    const [Etiqueta, setEtiqueta] = React.useState<number>(Number);
     const [Estado, setEstado] = React.useState<boolean>(Boolean);
     const [Id, setId] = React.useState<number>(0);
     const [todo, setTodo] = React.useState<Todo>({
@@ -39,10 +41,11 @@ import { useNavigate } from 'react-router-dom';
       date: '',
       tagId: 0
     });
-
+    
+    const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : usuario.theme === 'Tema2' ? themes.Tema2 : {};
+    
     React.useEffect(()=>{
       setTodo(dataTask)
-      console.log(usuario)
     },[modal])
 
     const modalCambio = () => {
@@ -89,15 +92,32 @@ import { useNavigate } from 'react-router-dom';
         description: Descripcion,
         status: Estado,
         date: Fecha,
-        tagId: 0
+        tagId: Etiqueta
       });
       
       fetch('https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas/1',{ method: 'PUT', body: JSON.stringify(todo) });
     }
 
+    const [abrir, setAbrir] = React.useState(false);
+
+    const handleChange = (event: SelectChangeEvent<typeof Etiqueta>) => {
+      const value = parseInt(event.target.value as string, 10);
+      setEtiqueta(value);
+      console.log(Etiqueta)
+    };
+
+    const handleClose2 = () => {
+      setAbrir(false);
+    };
+
+    const handleOpen = () => {
+      setAbrir(true);
+    };
+
 
     return ( 
       <Modal
+      style={estiloUsuario}
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
@@ -160,14 +180,31 @@ import { useNavigate } from 'react-router-dom';
                     />
                 </Typography>
               
-                <Typography id="spring-modal-description" sx={{ mt: 2 }}>
+                <Typography id="spring-modal-description" sx={{ mt: 1 }}>
                   <FormLabel>Etiqueta</FormLabel>
-                  <Input 
-                    defaultValue={todo.tagId === 1 ? 'Daily routine' : todo.tagId === 2 ? 'School' : 'Work'}
-                    onChange={etiquetaInput}
-                    type="text" 
-                  />                
+                    <FormControl sx={{ mb: 2,mt: 2, minWidth: 110 }}>
+                      <InputLabel id="demo-controlled-open-select-label">Tag</InputLabel>
+                      <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={abrir}
+                        onClose={handleClose2}
+                        onOpen={handleOpen}
+                        className="selectP"
+                        defaultValue={1}
+                        label="Tag"
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={1}>Daily routine</MenuItem>
+                        <MenuItem value={2}>School</MenuItem>
+                        <MenuItem value={3}>Work</MenuItem>
+                      </Select>
+                    </FormControl>
+                               
                 </Typography>
+
+                <div>
+          </div>
               
 
                 <Stack direction="row" spacing={3}>

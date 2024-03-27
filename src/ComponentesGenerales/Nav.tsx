@@ -5,41 +5,43 @@ import { themes } from '../Styles/Style-Components/Theme';
 import "../Styles/Nav.css";
 import Cookies from 'universal-cookie';
 
+
 const links = [
   {
     id: 1,
     name: "Pending",
-    href: "./pending"
+    href: "./pending",
+    icono: "fa-solid fa-clock"
   },
   {
     id: 2,
     name: "Finished",
-    href: "./finished"
+    href: "./finished",
+    icono: "fa-solid fa-check"
   },
   {
     id: 3,
     name: "Profile",
-    href: "./profile"
-  },
-  {
-    id: 4,
-    name: "Register",
-    href: "./register"
+    href: "./profile",
+    icono: "fa-solid fa-user"
   }
 ]
 
 export default function BasicMenu() {
+
+  
   
   const { usuario } = useContext(UserContext)
-  const [estilo, setEstilo] = useState('show');
+  const [estilo, setEstilo] = useState('hide');
   const cookies = new Cookies();
   const navigate = useNavigate();
-  // Función para cambiar el estilo
-
+  
+  
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   });
+  // Función para cambiar el estilo
   
   const cambiarEstilo = () => {
     setEstilo(estilo === 'show' ? 'hide' : 'show');
@@ -64,10 +66,17 @@ export default function BasicMenu() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  if (windowSize.width > 600 && estilo == 'hide') {
+    cambiarEstilo()
+    console.log("Hola")
+  }
+
   useEffect(() => {
-    if (windowSize.width > 600 && estilo == 'hide') {
+    if (windowSize.width > 600 && estilo == 'hide' && cookies.get('jwt')) {
       cambiarEstilo()
       console.log("Hola")
+    }else{
+      setEstilo('hide')
     }
   }, [windowSize]);
 
@@ -78,14 +87,23 @@ export default function BasicMenu() {
           <i className="fa-solid fa-bars"></i>
         </button>
         <nav
-          style={{}}
+          style={estiloUsuario}
           className={estilo}>
           <ol style={estiloUsuario} className={estilo}>
             {links.map(link => (
-              <Link style={estiloUsuario} key={link.id} className={estilo} to={link.href}><link rel="stylesheet" href=".name" />{link.name}</Link>
+              <Link style={estiloUsuario} key={link.id} className={estilo} to={link.href}>
+                <link rel="stylesheet" href=".name" />
+                <span className='navName' style={estiloUsuario}>
+                  <i style={estiloUsuario} className={link.icono}></i> 
+                  {link.name}
+                </span> 
+              </Link>
             ))}
             <li style={estiloUsuario} className='cerrar' onClick={cambiarEstilo}>
-              Cerrar
+                <span className='navName' style={estiloUsuario}>
+                  <i style={estiloUsuario} className="fa-solid fa-x"></i>
+                  Cerrar
+                </span> 
             </li>
             <li style={estiloUsuario} id='logout' 
               onClick={logOut} 

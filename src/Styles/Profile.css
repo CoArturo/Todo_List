@@ -1,0 +1,76 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h2
+{
+    font-size: 2rem;
+}
+
+.containerP
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputs
+{
+    margin-bottom: 30px;
+}
+
+.inputs Input
+{
+    height: 50px;
+}
+
+.controlesP
+{
+    width: 400px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: #fff;
+}
+
+.loginP
+{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    transition: ease all .2s;
+    cursor: pointer;
+}
+
+.loginP:hover
+{
+    color: rgb(36, 87, 163);
+}
+
+.selectP
+{
+    background-color: #fff;
+}
+
+@media (max-width: 600px)
+{
+    .controlesP
+    {
+        width: calc(100% - 4rem);
+    }
+
+    .inputs
+    {
+        width: calc(100% - 4rem);;
+    }
+}
