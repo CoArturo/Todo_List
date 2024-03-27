@@ -23,7 +23,6 @@ export function FinishedTask() {
       const data = await resp.json();
       setItems(data);
     } catch (error) {
-      console.error('Error fetching data:', error);
     }
   }
 
@@ -46,8 +45,6 @@ export function FinishedTask() {
       item.id === id ? { ...item, status: !item.status } : item
     );
     setItems(updatedItems);
-    console.log(Items)
-    console.log(Items)
   };
 
   const penddingItems = Items.filter(item => item.status == true && item.idUser == usuario.id);

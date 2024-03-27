@@ -29,7 +29,6 @@ export const Profile: React.FC = () => {
 
     const handleChange = (event: SelectChangeEvent<typeof Theme>) => {
         setTheme(event.target.value);
-        console.log(Theme)
     };
     
     const handleClose = () => {
@@ -39,11 +38,6 @@ export const Profile: React.FC = () => {
     const handleOpen = () => {
     setOpen(true);
     };
-
-
-    useEffect(()=>{
-        console.log(usuario)
-    },[])
 
     return(
     <div className="containerP">

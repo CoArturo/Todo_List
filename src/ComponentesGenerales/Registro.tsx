@@ -40,19 +40,17 @@ export const Registro: React.FC = () => {
       const response = await fetch(url)
       const data: User[] = await response.json();
       setId(data.length + 1)
-      console.log(id)
       const user = data.find(
         (u) => u.user === username
       );
       if(user){
         setError('El nombre de usuario no esta disponible')
-        console.error("Error al iniciar sesión:", error);
       }else {
         await registrarUsuario();
       }
 
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      setError('El nombre de usuario no esta disponible')
     }
   }
 
@@ -68,14 +66,13 @@ export const Registro: React.FC = () => {
       })
 
       if (response.ok) {
-        console.log('Usuario registrado exitosamente')
+        setError('El nombre de usuario no esta disponible')
       } else {
-        console.error('Error al registrar un usuario')
         setError('Error al registrar el usuario')
       }
       
     } catch (error) {
-      console.error('Error al registrar un usuario')
+      setError('El nombre de usuario no esta disponible')
     }
   }
 
@@ -84,7 +81,6 @@ export const Registro: React.FC = () => {
 
   const handleChange = (event: SelectChangeEvent<typeof theme>) => {
     setTheme(event.target.value);
-    console.log(theme)
   };
 
   const handleClose = () => {

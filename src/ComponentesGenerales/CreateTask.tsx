@@ -43,10 +43,9 @@ export const CreateTask = () => {
           const response = await fetch(url)
           const data: Todo[] = await response.json();
           setId(data.length + 1)
-          console.log(id)
-    
+
         } catch (error) {
-          console.error("Error al hacer el fetch: ", error);
+          setError('Error al hacer fetch')
         }
     };
 
@@ -63,14 +62,13 @@ export const CreateTask = () => {
     
           if (response.ok) {
             console.log('Tarea creada exitosamente')
-            
+
           } else {
-            console.error('Error al crear tarea')
             setError('Error al registrar la tarea')
           }
           
         } catch (error) {
-          console.error('Error al registrar la tarea')
+            setError('Error al registrar la tarea')
         }
       }
 

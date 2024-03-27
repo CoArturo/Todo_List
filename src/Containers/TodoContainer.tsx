@@ -25,7 +25,7 @@ export function PendingTask() {
       const data = await resp.json();
       setItems(data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      
     }
   }
 

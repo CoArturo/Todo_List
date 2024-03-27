@@ -55,7 +55,6 @@ export default function BasicMenu() {
 
   const logOut = () =>{
     cookies.remove("jwt")
-    console.log(cookies)
     navigate('/')
   }
 

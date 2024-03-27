@@ -39,7 +39,6 @@ export const LoginContainer: React.FC = () => {
         setUser(cookies.get("jwt"))
         navigate('/pending')
       }
-      console.log(cookies)
       setUsuario(usuario)
   },[])
 
@@ -57,7 +56,6 @@ export const LoginContainer: React.FC = () => {
 
   const obtenerData = async() =>{
     await handleLogin()
-    console.log(cookies)
   }
 
   useEffect(()=>{
@@ -81,14 +79,12 @@ export const LoginContainer: React.FC = () => {
 
       if (user) {
         setUsuario(user)
-        console.log(usuario)
         generearToken()
         navigate("/pending")
       } else {
         setError("Usuario o contraseña incorrectos");
       }
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
       setError("Error al iniciar sesión");
     }
   };
