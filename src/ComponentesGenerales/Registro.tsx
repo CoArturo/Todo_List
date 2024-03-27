@@ -1,9 +1,10 @@
-import React, { useEffect, useState, createContext, useContext  } from "react";
+import React, { useEffect, useState  } from "react";
 import { Input, Button } from '@mui/joy';
 import { MenuItem, FormControl, Select, SelectChangeEvent,  InputLabel  } from '@mui/material';
 import { User } from "../Interfaces/User";
 import '../Styles/Registro.css'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export const Registro: React.FC = () => {
 
@@ -24,8 +25,10 @@ export const Registro: React.FC = () => {
     theme: theme
   })
 
+  const cookies = new Cookies();
+
   useEffect(() => {
-    
+    if(!cookies){navigate('/')}
   }, [])
   
 
@@ -36,7 +39,7 @@ export const Registro: React.FC = () => {
 
       const response = await fetch(url)
       const data: User[] = await response.json();
-      setId(data.length)
+      setId(data.length + 1)
       console.log(id)
       const user = data.find(
         (u) => u.user === username
@@ -145,7 +148,7 @@ export const Registro: React.FC = () => {
           </div>
         <small onClick={()=>navigate('/')} className="register">Have account? Log-In</small>
         </div>
-      <Button onClick={revisarUsuario}>Iniciar sesión</Button>
+      <Button onClick={revisarUsuario}>REGISTRARSE</Button>
       </div>
     </div>
   )

@@ -21,6 +21,12 @@ const links = [
   },
   {
     id: 3,
+    name: "Create Task",
+    href: "./createtask",
+    icono: "fa-solid fa-clipboard"
+  },
+  {
+    id: 4,
     name: "Profile",
     href: "./profile",
     icono: "fa-solid fa-user"
@@ -45,7 +51,6 @@ export default function BasicMenu() {
   
   const cambiarEstilo = () => {
     setEstilo(estilo === 'show' ? 'hide' : 'show');
-    console.log(estilo)
   };
 
   const logOut = () =>{
@@ -68,13 +73,11 @@ export default function BasicMenu() {
 
   if (windowSize.width > 600 && estilo == 'hide') {
     cambiarEstilo()
-    console.log("Hola")
   }
 
   useEffect(() => {
     if (windowSize.width > 600 && estilo == 'hide' && cookies.get('jwt')) {
       cambiarEstilo()
-      console.log("Hola")
     }else{
       setEstilo('hide')
     }

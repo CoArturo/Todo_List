@@ -18,10 +18,10 @@ import { themes } from '../Styles/Style-Components/Theme';
   {
 
     const navigate = useNavigate();
+    const cookies = new Cookies();
 
     React.useEffect(()=>{
-      const cookies = new Cookies();
-      if(!cookies){navigate('/login')}
+      if(!cookies){navigate('/')}
     },[])
 
 
@@ -79,10 +79,6 @@ import { themes } from '../Styles/Style-Components/Theme';
     
     const estadoInput = (event:any, status: boolean) => {
       setEstado(status)
-    }
-
-    const etiquetaInput = (event:any) => {
-      setEtiqueta(event.target.value)
     }
 
     const handleSubmit = () => {
@@ -208,8 +204,8 @@ import { themes } from '../Styles/Style-Components/Theme';
               
 
                 <Stack direction="row" spacing={3}>
-                  <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-                    <Button onClick={() => {handleClose(); handleSubmit();}}>subir</Button>
+                  <Typography id="spring-modal-description" sx={{ mt: 3 }}>
+                    <Button sx={{ ml: 10 }} onClick={() => {handleClose(); handleSubmit();}}>SUBIR</Button>
                   </Typography>
                 </Stack>
               </div>

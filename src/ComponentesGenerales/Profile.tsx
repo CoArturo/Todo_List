@@ -98,7 +98,7 @@ export const Profile: React.FC = () => {
             </FormControl>
           </div>
           </div>
-          <Button className="mandar">Guardar</Button>
+          <Button className="mandar">GUARDAR</Button>
         </div>
         ) : (
             <p>Please login</p>

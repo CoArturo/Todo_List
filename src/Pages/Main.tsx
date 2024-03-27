@@ -8,6 +8,7 @@ import { UserProvider } from '../Context/UserContext';
 import Registro from '../ComponentesGenerales/Registro';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
+import { CreateTask } from '../ComponentesGenerales/CreateTask';
 
 export const Main = () => {
 
@@ -34,6 +35,7 @@ export const Main = () => {
                   <Route path='/finished' element={<FinishedTask/>}/>
                   <Route path='/profile' element={<Profile />}/>
                   <Route path='/register' element={<Registro />}/>
+                  <Route path='/createtask' element={<CreateTask />}/>
                   <Route path='/' element={<LoginContainer />} />
               </Routes>
             </div>

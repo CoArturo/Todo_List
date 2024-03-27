@@ -43,14 +43,6 @@ export const LoginContainer: React.FC = () => {
       setUsuario(usuario)
   },[])
 
-
-  const logOut = () =>{
-    setUser(null)
-    cookies.remove("jwt")
-    console.log(User)
-    console.log(cookies)
-  }
-
   const login = (jwt_token:any) =>{
     cookies.set("jwt", jwt_token)
     setUser(jwt_token)
@@ -140,7 +132,7 @@ export const LoginContainer: React.FC = () => {
     : 
     (
       <div>
-        <Button onClick={()=>navigate("/pending")}>Tareas</Button>
+        <Button onClick={()=>navigate("/pending")}>TAREAS</Button>
       </div>
     )}
     </div>
