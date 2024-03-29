@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext  } from "react";
 import {Input, Button} from '@mui/joy';
+import CryptoJS from 'crypto-js';
 import { User } from "../Interfaces/User";
 import { Alert } from '@mui/material';
 import { UserContext} from '../Context/UserContext';
 import Cookies from "universal-cookie";
 import  { useNavigate }  from 'react-router-dom';
 import '../Styles/Login.css'
+import { key } from "./NadieMeVe";
 
 
 export const LoginContainer: React.FC = () => {
@@ -17,14 +19,10 @@ export const LoginContainer: React.FC = () => {
 
   const [animate, setAnimate] = useState(false);
   
-  const { setUsuario } = useContext(UserContext)
-  const { usuario } = useContext(UserContext)
+  const { usuario, setUsuario } = useContext(UserContext)
   
   const navigate = useNavigate();
   const cookies = new Cookies();
-
-  // Llave secre para token
-  // const key: string = 'ponatencionnotienesenemigos';
 
   const handleClick = () => {
     setAnimate(true);
@@ -34,22 +32,24 @@ export const LoginContainer: React.FC = () => {
   };
 
   useEffect(()=>{
-      if(cookies.get('jwt'))
-      {
-        setUser(cookies.get("jwt"))
-        navigate('/pending')
-      }
-      setUsuario(usuario)
+    if(cookies.get('jwt'))
+    {
+      setUser(cookies.get("jwt"))
+      navigate('/pending')
+    }
   },[])
 
   const login = (jwt_token:any) =>{
     cookies.set("jwt", jwt_token)
-    setUser(jwt_token)
-    cookies.get("jwt_authorization", jwt_token)
+    cookies.get("jwt", jwt_token)
   }
 
-  const generearToken = () =>{
-    const token = 'regregpoefwjfewp';
+  const generearToken = (userToken: User) =>{
+    const objetoUsuario:User = userToken;
+    const jsonString = JSON.stringify(objetoUsuario)
+    const encrytedData = CryptoJS.AES.encrypt(jsonString, key).toString();
+
+    const token = encrytedData;
     login(token)
   }
 
@@ -79,8 +79,10 @@ export const LoginContainer: React.FC = () => {
 
       if (user) {
         setUsuario(user)
-        generearToken()
+        console.log(user)
+        generearToken(user)
         navigate("/pending")
+        window.location.reload()
       } else {
         setError("Usuario o contraseña incorrectos");
       }

@@ -5,14 +5,17 @@ import { Alert, MenuItem, FormControl, Select, SelectChangeEvent,  InputLabel  }
 import { Input, Button } from '@mui/joy';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../Interfaces/User';
+import { key } from './NadieMeVe';
 import '../Styles/TaskCreate.css'
+import CryptoJS from 'crypto-js';
 
 export const CreateTask = () => {
 
     const navigate = useNavigate();
     const cookies = new Cookies();
 
-    const {usuario} = React.useContext(UserContext)
+    const {usuario,setUsuario} = React.useContext(UserContext)
 
     const [error, setError] = useState<string>('')
 
@@ -80,6 +83,22 @@ export const CreateTask = () => {
         setToday(`${day}-${month}-${year}`)
         fetchTasks()
       },[])
+
+      useEffect(()=>{
+        revisarCookies()
+      }, [])
+    
+      const revisarCookies = () =>{
+        if(!cookies.get('jwt'))
+        {
+          navigate('/')
+        }else{
+          const data = cookies.get("jwt")
+          const descryptedData =  CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8)
+          const descryptedObject:User = JSON.parse(descryptedData)
+          setUsuario(descryptedObject, null, 2);
+        }
+      }
 
 
       const [open, setOpen] = useState(false);

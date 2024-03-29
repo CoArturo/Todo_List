@@ -1,0 +1,107 @@
+.Dark
+{
+  color: #fff;
+  overflow: hidden;
+}
+
+.Dark a
+{
+  color: #fff;
+}
+
+.Dark i
+{
+  color: #fff;
+  background-color: transparent;
+}
+
+.Dark h2
+{
+  color: #fff;
+}
+
+.Dark .contenedorCards
+{
+  background-color: #1f1f1f;
+}
+
+.Dark .card
+{
+  background-color: #363636;
+}
+
+/* Light theme */
+.Light
+{
+  color: #000;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.Light a
+{
+  color: #000;
+}
+
+.Light i
+{
+  color: #000;
+  background-color: transparent;
+}
+
+.Light h2
+{
+  color: #000;
+  background-color: transparent;
+}
+
+.Light .contenedorCards
+{
+  background-color: #f0f0f0;
+}
+
+.Light .card
+{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.linkA
+{
+  background-color: transparent;
+}
+
+.Light .navName:hover .iconosLinks 
+{
+  color: #fff;
+}
+
+.Light .navName:hover .linkA 
+{
+  color: #fff;
+}
+
+.logoutA
+{
+  background-color: transparent;
+  display: flex;
+  align-items: baseline;
+}
+
+.logout
+{
+  
+}
+
+
+.Light .logout:hover i
+{
+  color: #fff;
+}
+
+.Light .logout:hover p
+{
+  color: #fff;
+}
+
+
+

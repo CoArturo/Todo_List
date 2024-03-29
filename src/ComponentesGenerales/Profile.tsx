@@ -4,28 +4,43 @@ import {Input, Button} from '@mui/joy';
 import { MenuItem, FormControl, Select, SelectChangeEvent,  InputLabel  } from '@mui/material';
 import  '../Styles/Profile.css'
 import { useNavigate } from "react-router-dom";
+import { User } from "../Interfaces/User";
+import { key } from "./NadieMeVe";
 import Cookies from "universal-cookie";
+import CryptoJS from 'crypto-js';
 
 
 export const Profile: React.FC = () => {
     
-    const {usuario} = useContext(UserContext)
-    const [Id, setId] = useState<number>(Number)
-    const [User, setUser] = useState<string>('')
-    const [Name, setName] = useState<string>('')
-    const [Clave, setClave] = useState<string>('')
-    const [Theme, setTheme] = useState<string>('')
+  const [Id, setId] = useState<number>(Number)
+  const [User, setUser] = useState<string>('')
+  const [Name, setName] = useState<string>('')
+  const [Clave, setClave] = useState<string>('')
+  const [Theme, setTheme] = useState<string>('')
+  
+  const [open, setOpen] = useState(false);
+  
+  const navigate = useNavigate();
+  
+  const cookies = new Cookies();
 
-    const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const cookies = new Cookies();
+  const {usuario, setUsuario} = useContext(UserContext)
+    
     useEffect(()=>{
-        if(!cookies.get('jwt'))
-          {
-            navigate('/')
-          }
-      }, [])
+      revisarCookies()
+    }, [])
+
+    const revisarCookies = () =>{
+      if(!cookies.get('jwt'))
+      {
+        navigate('/')
+      }else{
+        const data = cookies.get("jwt")
+        const descryptedData =  CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8)
+        const descryptedObject:User = JSON.parse(descryptedData)
+        setUsuario(descryptedObject, null, 2);
+      }
+  }
 
     const handleChange = (event: SelectChangeEvent<typeof Theme>) => {
         setTheme(event.target.value);
@@ -41,7 +56,6 @@ export const Profile: React.FC = () => {
 
     return(
     <div className="containerP">
-
         {usuario ? (
         <div className="controlesP">
             <h2>Profile</h2>
@@ -81,13 +95,13 @@ export const Profile: React.FC = () => {
                 onClose={handleClose}
                 onOpen={handleOpen}
                 className="selectP"
-                defaultValue={usuario.theme}
+                defaultValue={Theme}
                 label="Tema"
                 onChange={handleChange}
               >
-                <MenuItem value='Tema1'>Tema1</MenuItem>
-                <MenuItem value='Tema2'>Tema2</MenuItem>
-                <MenuItem value='Tema3'>Tema3</MenuItem>
+                <MenuItem value='Dark'>Dark</MenuItem>
+                <MenuItem value='Light'>Light</MenuItem>
+                <MenuItem value='Default'>Default</MenuItem>
               </Select>
             </FormControl>
           </div>

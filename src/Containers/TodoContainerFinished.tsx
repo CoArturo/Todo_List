@@ -1,10 +1,13 @@
-import { useContext, useEffect, useState } from 'react'
 import TodoPresentation from '../Presentations/TodoPresentation';
+import { useContext, useEffect, useState } from 'react'
 import { Todo } from "../Interfaces/Todo";
 import {CircularProgress} from '@mui/material';
 import { UserContext } from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../Interfaces/User';
+import { key } from '../ComponentesGenerales/NadieMeVe';
 import Cookies from 'universal-cookie';
+import CryptoJS from 'crypto-js';
 
 export function FinishedTask() {
 
@@ -12,7 +15,7 @@ export function FinishedTask() {
   const [loading, setLoading] = useState(false);
   const url = `https://my-json-server.typicode.com/CoArturo/MonckAPI/tareas`
   
-  const { usuario } = useContext(UserContext)
+  const { usuario, setUsuario } = useContext(UserContext)
 
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -33,12 +36,21 @@ export function FinishedTask() {
   }
 
   useEffect(()=>{
-    obtenerData() 
-    if(!cookies.get('jwt'))
-      {
-        navigate('/')
-      }
+    revisarCookies()
   }, [])
+
+  const revisarCookies = () =>{
+    if(!cookies.get('jwt'))
+    {
+      navigate('/')
+    }else{
+      const data = cookies.get("jwt")
+      const descryptedData =  CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8)
+      const descryptedObject:User = JSON.parse(descryptedData)
+      setUsuario(descryptedObject, null, 2);
+      obtenerData()
+    }
+  }
 
   const handleToggleStatus = (id: number) => {
     const updatedItems = Items.map(item =>

@@ -4,7 +4,7 @@ import { Todo } from "../Interfaces/Todo";
 import ModalContainer from "../Containers/ModalContainer";
 import "../Styles/Cards.css";
 import { UserContext } from "../Context/UserContext";
-import { themes } from '../Styles/Style-Components/Theme';
+import '../Styles/Style-Components/Themes.css'
 
 interface TodoListProps {
   todos: Todo[];
@@ -22,7 +22,9 @@ const TodoPresentation: React.FC<TodoListProps> = ({
   const [Id, setId] = useState<number>(Number);
 
   const {usuario} = useContext(UserContext)
-  const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : usuario.theme === 'Tema2' ? themes.Tema2 : {};
+  const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                        : usuario.theme === 'Light' ? 'Light'  
+                        : 'Default'
 
 
   const cambiarId = (id: number) => {
@@ -36,20 +38,19 @@ const TodoPresentation: React.FC<TodoListProps> = ({
 
 
   return (
-    <div className="container">
-      <div className="contenedorCards">
+    <div className={`container ${estiloUsuario}`}>
+      <div className={`contenedorCards`}>
         <div className="tituloC">
-          <h2 style={{background: `${themes}`+ "." + `${estiloUsuario}`, color: `${themes}`+ "." + `${estiloUsuario}`}}>{titulo}</h2>
+          <h2 className={`${estiloUsuario}`}>{titulo}</h2>
         </div>
         <div className="cartas">
           {todos.map((todo) => {
             return (
-              <Card style={estiloUsuario} key={todo.id} sx={{ minWidth: 350 }} className="card">
-                <CardContent style={estiloUsuario}>
+              <Card className={`card ${estiloUsuario}`} key={todo.id} sx={{ minWidth: 350 }}>
+                <CardContent className={`${estiloUsuario}`}>
                   <Typography
-                    style={estiloUsuario}
+                    className={`${estiloUsuario}`}
                     sx={{ fontSize: 14 }}
-                    color="text.secondary"
                     gutterBottom
                   >
                     {todo.tagId === 1
@@ -61,7 +62,7 @@ const TodoPresentation: React.FC<TodoListProps> = ({
                       : ""}
                   </Typography>
                   
-                  <Typography style={estiloUsuario} variant="h5" component="div">
+                  <Typography className={`${estiloUsuario}`} variant="h5" component="div">
                     {todo.description}
                   </Typography>
 

@@ -1,0 +1,1 @@
+export const key = 'Pon atencion Thorfinn, no tienes enemigos, nadie tiene enemigos. Nadie en este mundo merece ser herido';

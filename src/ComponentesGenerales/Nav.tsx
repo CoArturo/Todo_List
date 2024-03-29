@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
-import { themes } from '../Styles/Style-Components/Theme';
 import "../Styles/Nav.css";
+import '../Styles/Style-Components/Themes.css'
 import Cookies from 'universal-cookie';
 
 
@@ -54,8 +54,13 @@ export default function BasicMenu() {
   };
 
   const logOut = () =>{
-    cookies.remove("jwt")
-    navigate('/')
+    cambiarEstilo()
+    setEstilo("hide")
+    setTimeout(()=>{
+      cookies.remove("jwt")
+      navigate('/')
+      window.location.reload()
+    }, 1000)
   }
 
   useEffect(() => {
@@ -70,47 +75,52 @@ export default function BasicMenu() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (windowSize.width > 600 && estilo == 'hide') {
-    cambiarEstilo()
-  }
 
   useEffect(() => {
     if (windowSize.width > 600 && estilo == 'hide' && cookies.get('jwt')) {
-      cambiarEstilo()
-    }else{
-      setEstilo('hide')
+      setEstilo("show")
+    }else if(windowSize.width < 600){
+      setEstilo("hide")
     }
   }, [windowSize]);
 
-  const estiloUsuario = usuario.theme === 'Tema1' ? themes.Tema1 : usuario.theme === 'Tema2' ? themes.Tema2 : {};
+  const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                        : usuario.theme === 'Light' ? 'Light'  
+                        : 'Default'
     return (
       <>
         <button className='menu' onClick={cambiarEstilo}>
           <i className="fa-solid fa-bars"></i>
         </button>
         <nav
-          style={estiloUsuario}
-          className={estilo}>
-          <ol style={estiloUsuario} className={estilo}>
+          className={`${estilo} ${estiloUsuario}`}>
+          <ol className={estiloUsuario}>
             {links.map(link => (
-              <Link style={estiloUsuario} key={link.id} className={estilo} to={link.href}>
-                <link rel="stylesheet" href=".name" />
-                <span className='navName' style={estiloUsuario}>
-                  <i style={estiloUsuario} className={link.icono}></i> 
-                  {link.name}
-                </span> 
-              </Link>
+              <li key={link.id}>
+                <Link className={`${estilo} ${estiloUsuario}`} key={link.id} to={link.href}>
+                   <link rel="stylesheet" href=".name" />
+                   <span className='navName'>
+                     <i className={`iconosLinks ${link.icono} ${estiloUsuario}`}></i> 
+                     <span className={`linkA ${estilo} ${estiloUsuario}`}>
+                       {link.name}
+                     </span>
+                   </span> 
+                 </Link>
+              </li>
             ))}
-            <li style={estiloUsuario} className='cerrar' onClick={cambiarEstilo}>
-                <span className='navName' style={estiloUsuario}>
-                  <i style={estiloUsuario} className="fa-solid fa-x"></i>
-                  Cerrar
+            <li className='cerrar' onClick={cambiarEstilo}>
+                <span className={`cerrarC ${estilo} ${estiloUsuario}`} >
+                  <i className={`fa-solid fa-x ${estiloUsuario}`}></i>
+                  <span className={`${estiloUsuario}`}>Cerrar</span>
                 </span> 
             </li>
-            <li style={estiloUsuario} id='logout' 
+            <li 
               onClick={logOut} 
-              className={estilo}>
-                Log Out
+              className={`logout ${estilo} ${estiloUsuario}`}>
+                <div className={`logoutA`}>
+                  <i className="fa-solid fa-right-from-bracket"></i>
+                  <p>Log Out</p>
+                </div>
             </li>
           </ol>
         </nav>
