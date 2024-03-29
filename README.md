@@ -10,15 +10,6 @@ Instalacion:
   Luego copiar la direccion URL que se encuentra en el aparatado Local o en su defecto escribir
   la letra o y precionar ENTER. PAra este punto el aplicacion ya deberia estar corriendo correctamente.
 
-Anotaciones importantes:
-- El JWT y la autenticacion estan pacialmente implementada, el aplicacion es capaz de guardar un token
-  en las cookies al momento de iniciar sesion, pero no fue posible la generacion de un token utilizando
-  la libreria JWT. ¿Como afecta esto al funcionamiento? Dado que el aplicacion almacena un fake token
-  que no contine la informacion del usuario si se recargara la pagina el contenido estaria vacio pero
-  aun nos permite seguir navegando ya que la aplicacion solo revisa que exista un token en las cookies
-  mas no que el mismo contenga informacion del usuario. Para solucionar el problema solo habra que
-  precionar el boton de Log Out para borrar las cookies e iniciar sesion nuevamente pero ahora con toda
-  la informacion pertinente.
 
 Competencias desarrolladas
 - Creación y Protección de Rutas en React con React Router DOM
