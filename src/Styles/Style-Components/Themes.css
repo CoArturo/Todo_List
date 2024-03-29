@@ -30,6 +30,38 @@
   background-color: #363636;
 }
 
+.Dark .logout p
+{
+  color: #fff;
+}
+
+.Dark + .containerP
+{
+  background-color: #1f1f1f;
+}
+
+.Dark + .containerP h2
+{
+  color: #1f1f1f;
+}
+
+.Dark + .containerTask
+{
+  background-color: #1f1f1f;
+}
+
+.Dark + .containerTask h2
+{
+  color: #1f1f1f;
+}
+
+.Dark + .loadingCards
+{
+  height: 100%;
+  background-color: #1f1f1f;
+  color: red;
+}
+
 /* Light theme */
 .Light
 {
@@ -103,5 +135,10 @@
   color: #fff;
 }
 
-
+.Light + .loadingCards
+{
+  height: 100%;
+  background-color: #e9e9e9;
+  color: red;
+}
 

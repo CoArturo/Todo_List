@@ -119,9 +119,13 @@ export const CreateTask = () => {
         setOpen(true);
     };
 
+    const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                          : usuario.theme === 'Light' ? 'Light'  
+                          : 'Default'
+
   return (
-    <div className="containerTask">
-      <div className="controlesT">
+    <div className={`containerTask ${estiloUsuario}`}>
+      <div className={`controlesT ${estiloUsuario}`}>
         <h2>Task</h2>
         <div className="inputs">
           <Input

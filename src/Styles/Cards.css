@@ -30,7 +30,7 @@ body
 
 .loading
 {
-    background-color: rgba(0, 0, 0, 0.158);
+    background-color: rgb(219, 24, 24);
     color: #fff;
     position: absolute;
     width: 100%;

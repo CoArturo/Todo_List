@@ -55,6 +55,10 @@ export function PendingTask() {
     }
   }
 
+  const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                        : usuario.theme === 'Light' ? 'Light'  
+                        : 'Default'
+
   const handleToggleStatus = (id: number) => {
     const updatedItems = Items.map(item =>
       item.id === id ? { ...item, status: !item.status } : item
@@ -68,8 +72,8 @@ export function PendingTask() {
 
     <>
       {loading ? (
-        <div className="loadingCards">
-          <CircularProgress className="load"/>
+        <div className={`loadingCards ${estiloUsuario}`}>
+          <CircularProgress className={`load ${estiloUsuario}`}/>
         </div>  
         ) : (
         <>

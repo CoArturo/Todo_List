@@ -20,11 +20,16 @@ export const Profile: React.FC = () => {
   
   const [open, setOpen] = useState(false);
   
+  const {usuario, setUsuario} = useContext(UserContext)
+
+  const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                        : usuario.theme === 'Light' ? 'Light'  
+                        : 'Default'
+  
   const navigate = useNavigate();
   
   const cookies = new Cookies();
 
-  const {usuario, setUsuario} = useContext(UserContext)
     
     useEffect(()=>{
       revisarCookies()
@@ -55,9 +60,9 @@ export const Profile: React.FC = () => {
     };
 
     return(
-    <div className="containerP">
+    <div className={`containerP ${estiloUsuario}`}>
         {usuario ? (
-        <div className="controlesP">
+        <div className={`controlesP ${estiloUsuario}`}>
             <h2>Profile</h2>
             <div className="inputs">
                 <Input

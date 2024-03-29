@@ -51,6 +51,10 @@ export function FinishedTask() {
       obtenerData()
     }
   }
+  
+  const estiloUsuario = usuario.theme === 'Dark' ? 'Dark' 
+                        : usuario.theme === 'Light' ? 'Light'  
+                        : 'Default'
 
   const handleToggleStatus = (id: number) => {
     const updatedItems = Items.map(item =>
@@ -65,9 +69,9 @@ export function FinishedTask() {
 
     <>
       {loading ? (
-        <div className="loadingCards">
-          <CircularProgress className="load"/>
-        </div>  
+        <div className={`loadingCards ${estiloUsuario}`}>
+        <CircularProgress className={`load ${estiloUsuario}`}/>
+      </div>   
         ) : (
         <>
           <TodoPresentation
