@@ -32,6 +32,7 @@ Componentes Reutilizables y Patrones de Diseño
 Manejo de Estado
   - Al momento de iniciar sesion se guarda toda la informacion del usuario en un estado para posteriormente
     ser usado, por ejemplo en el perfil aparecera la informacion actual del usuario.
+  - El inicio de sesion genera un token que se almacena en las cookies(se puede recargar la pagina). 
 
 Integración de Librerías de Componentes
   - Todos los elementos fueron trabajado con material UI para conservar la consistencia en el diseño.
